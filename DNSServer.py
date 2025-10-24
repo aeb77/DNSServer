@@ -11,7 +11,6 @@ import threading
 import signal
 import os
 import sys
-
 import hashlib
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
@@ -32,20 +31,20 @@ def generate_aes_key(password, salt):
 
 # Lookup details on fernet in the cryptography.io documentation    
 def encrypt_with_aes(input_string, password, salt):
-    key = generate_aes_key(????)
-    f = Fernet(???)
-    encrypted_data = f.????(????.encode('utf-8')) #call the Fernet encrypt method
+    key = generate_aes_key(password, salt)
+    f = Fernet(key)
+    encrypted_data = f.encrypt(input_string.encode('utf-8')) #call the Fernet encrypt method
     return encrypted_data    
 
 def decrypt_with_aes(encrypted_data, password, salt):
-    key = generate_aes_key(????)
-    f = Fernet(????)
-    decrypted_data = f.????(????) #call the Fernet decrypt method
+    key = generate_aes_key(password, salt)
+    f = Fernet(key)
+    decrypted_data = f.decrypt(encrypted_data) #call the Fernet decrypt method
     return decrypted_data.decode('utf-8')
 
-salt = ???? # Remember it should be a byte-object
-password = ?????
-input_string = ?????
+salt = "Tandon".encode('utf-8') # Remember it should be a byte-object
+password = "aeb776@nyu.edu"
+input_string = "AlwaysWatching"
 
 encrypted_value = encrypt_with_aes(input_string, password, salt) # exfil function
 decrypted_value = decrypt_with_aes(encrypted_value, password, salt)  # exfil function
@@ -89,7 +88,7 @@ def run_dns_server():
             # Wait for incoming DNS requests
             data, addr = server_socket.recvfrom(1024)
             # Parse the request using the `dns.message.from_wire` method
-            request = ?????
+            request = dns.message.from_wire(?????
             # Create a response message using the `dns.message.make_response` method
             response = ??????
 
@@ -152,5 +151,6 @@ def run_dns_server_user():
 
 if __name__ == '__main__':
     run_dns_server_user()
-    #print("Encrypted Value:", encrypted_value)
-    #print("Decrypted Value:", decrypted_value)
+    print("Encrypted Value:", encrypted_value)
+    print("Decrypted Value:", decrypted_value)
+
