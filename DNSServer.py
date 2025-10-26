@@ -74,21 +74,21 @@ dns_records = {
             86400, #minimum
         ),
     },
-    'safebank.com.':  {
+    'safebank.com':  {
         dns.rdatatype.A: '192.168.1.102'
     },
-    'google.com.': {
+    'google.com': {
         dns.rdatatype.A: '192.168.1.103'
     },
-    'legitsite.com.': {
+    'legitsite.com': {
         dns.rdatatype.A: '192.168.1.104'
     },
-    'yahoo.com.': {
+    'yahoo.com': {
         dns.rdatatype.A: '192.168.1.105'
     },
-    'nyu.edu.': {
+    'nyu.edu': {
         dns.rdatatype.A: '192.168.1.106',
-        dns.rdatatype.TXT: (input_string,),
+        dns.rdatatype.TXT: str(encrypted_value),
         dns.rdatatype.MX: [(10, 'mxa-00256a01.gslb.pphosted.com.')],
         dns.rdatatype.AAAA: '2001:0db8:85a3:0000:0000:8a2e:0373:7312',
         dns.rdatatype.NS: 'ns1.nyu.edu.',
@@ -98,7 +98,7 @@ dns_records = {
 def run_dns_server():
     # Create a UDP socket and bind it to the local IP address (what unique IP address is used here, similar to webserver lab) and port (the standard port for DNS)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Research this
-    server_socket.bind(("127.0.0.1", 54))
+    server_socket.bind(("127.0.0.1", 53))
 
     while True:
         try:
@@ -170,3 +170,4 @@ if __name__ == '__main__':
     run_dns_server_user()
     print("Encrypted Value:", encrypted_value)
     print("Decrypted Value:", decrypted_value)
+
