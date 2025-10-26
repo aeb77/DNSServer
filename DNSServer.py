@@ -74,21 +74,21 @@ dns_records = {
             86400, #minimum
         ),
     },
-    'safebank.com':  {
+    'safebank.com.':  {
         dns.rdatatype.A: '192.168.1.102'
     },
-    'google.com': {
+    'google.com.': {
         dns.rdatatype.A: '192.168.1.103'
     },
-    'legitsite.com': {
+    'legitsite.com.': {
         dns.rdatatype.A: '192.168.1.104'
     },
-    'yahoo.com': {
+    'yahoo.com.': {
         dns.rdatatype.A: '192.168.1.105'
     },
-    'nyu.edu': {
+    'nyu.edu.': {
         dns.rdatatype.A: '192.168.1.106',
-        dns.rdatatype.TXT: str(encrypted_value),
+        dns.rdatatype.TXT: (str(encrypted_value),),
         dns.rdatatype.MX: [(10, 'mxa-00256a01.gslb.pphosted.com.')],
         dns.rdatatype.AAAA: '2001:0db8:85a3:0000:0000:8a2e:0373:7312',
         dns.rdatatype.NS: 'ns1.nyu.edu.',
@@ -131,8 +131,10 @@ def run_dns_server():
                 else:
                     if isinstance(answer_data, str):
                         rdata_list = [dns.rdata.from_text(dns.rdataclass.IN, qtype, answer_data)]
-                    else:
+                    elif isinstance(answer_data, tuple):
                         rdata_list = [dns.rdata.from_text(dns.rdataclass.IN, qtype, data) for data in answer_data]
+                    else:
+                        rdata_list = [dns.rdata.from_text(dns.rdataclass.IN, qtype, answer_data)]
                 for rdata in rdata_list:
                     response.answer.append(dns.rrset.RRset(question.name, dns.rdataclass.IN, qtype))
                     response.answer[-1].add(rdata)
